@@ -1,0 +1,34 @@
+class Solution {
+  public:
+    bool searchMatrix(vector<vector<int>> &mat, int x) {
+        // code here
+        int n=mat.size();
+        int m=mat[0].size();
+        int l=0;
+        int r=n*m-1;
+        while(l<=r){
+            int mid=(l+r)/2;
+            int mv=mat[mid/m][mid%m];
+            int lv=mat[l/m][l%m];
+            int rv=mat[r/m][r%m];
+            if(mv==x) return true;
+            else if(lv<=mv){
+                if(lv<=x && x<mv){
+                    r=mid-1;
+                }
+                else{
+                    l=mid+1;
+                }
+            }
+            else{
+                if(mv<x && x<=rv){
+                    l=mid+1;
+                }
+                else{
+                    r=mid-1;
+                }
+            }
+        }
+        return false;
+    }
+};
