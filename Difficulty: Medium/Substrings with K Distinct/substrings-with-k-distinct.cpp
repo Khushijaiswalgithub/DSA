@@ -1,30 +1,30 @@
 class Solution {
   public:
-   int f(string& s, int k){
-       int mp[26]={0};
-       int c=0;
-       int l=0,r=0;
-       int d=0;
-       while(r<s.size()){
-           if(mp[s[r]-'a']==0){
-               d++;
-           }
-           mp[s[r]-'a']++;
-           while(d>k ){
-               mp[s[l]-'a']--;
-              if(mp[s[l]-'a']==0){
-                 d--;
-              }
-               l++;
-           }
-           c+=r-l+1;
-           r++;
-       }
-       return c;
-       
-   }
+  long long atMostK(string &s, int k) {
+        if (k == 0) return 0;
+
+        vector<int> freq(26, 0);
+        int left = 0, distinct = 0;
+        long long ans = 0;
+
+        for (int right = 0; right < s.size(); right++) {
+            if (freq[s[right] - 'a'] == 0)
+                distinct++;
+            freq[s[right] - 'a']++;
+
+            while (distinct > k) {
+                freq[s[left] - 'a']--;
+                if (freq[s[left] - 'a'] == 0)
+                    distinct--;
+                left++;
+            }
+
+            ans += (right - left + 1);
+        }
+        return ans;
+  }
     int countSubstr(string& s, int k) {
-        // code here.
-        return f(s,k)-f(s,k-1);
+        // code here
+        return atMostK(s, k) - atMostK(s, k - 1);
     }
 };
